@@ -37,7 +37,14 @@ public class BaseBatchFluent<T, E> implements ContextFluent<T, E> {
         return (T) this;
     }
 
-
+    public T addCommand(Command command, long distance) {
+        if (distance > 0) {
+            this.after(distance);
+        }
+        fluentCtx.addCommand(command);
+        return (T) this;
+    }
+    
     public T after(long distance) {
         fluentCtx.addBatch(new BatchImpl(distance));
         return (T) this;
