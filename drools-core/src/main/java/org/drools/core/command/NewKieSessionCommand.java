@@ -16,27 +16,42 @@
 
 package org.drools.core.command;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.drools.core.command.impl.ExecutableCommand;
 import org.drools.core.command.impl.RegistryContext;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
+import org.kie.api.internal.builder.impl.ReleaseIdImpl;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.Context;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class NewKieSessionCommand
-    implements
-    ExecutableCommand<KieSession> {
+                                  implements
+                                  ExecutableCommand<KieSession> {
 
     private static final long serialVersionUID = 8748826714594402049L;
     private String sessionId;
+
+    @XmlElement(type = ReleaseIdImpl.class)
     private ReleaseId releaseId;
+
+    public NewKieSessionCommand() {
+
+    }
 
     public NewKieSessionCommand(String sessionId) {
         this.sessionId = sessionId;
     }
 
-    public NewKieSessionCommand(ReleaseId releaseId, String sessionId) {
+    public NewKieSessionCommand(ReleaseId releaseId,
+                                String sessionId) {
         this.sessionId = sessionId;
         this.releaseId = releaseId;
     }
@@ -44,20 +59,21 @@ public class NewKieSessionCommand
     public KieSession execute(Context context) {
         KieContainer kieContainer;
 
-        if ( releaseId != null ) {
+        if (releaseId != null) {
             // use the new API to retrieve the session by ID
-            KieServices  kieServices  = KieServices.Factory.get();
+            KieServices kieServices = KieServices.Factory.get();
             kieContainer = kieServices.newKieContainer(releaseId);
         } else {
-            kieContainer = ((RegistryContext)context).lookup( KieContainer.class );
-            if ( kieContainer == null ) {
+            kieContainer = ((RegistryContext) context).lookup(KieContainer.class);
+            if (kieContainer == null) {
                 throw new RuntimeException("ReleaseId was not specfied, nor was an existing KieContainer assigned to the Registry");
             }
         }
 
-        KieSession ksession  = sessionId != null ? kieContainer.newKieSession(sessionId) : kieContainer.newKieSession();
+        KieSession ksession = sessionId != null ? kieContainer.newKieSession(sessionId) : kieContainer.newKieSession();
 
-        ((RegistryContext)context).register( KieSession.class, ksession );
+        ((RegistryContext) context).register(KieSession.class,
+                                             ksession);
 
         return ksession;
     }

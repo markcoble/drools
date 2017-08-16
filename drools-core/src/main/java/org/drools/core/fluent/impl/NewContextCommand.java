@@ -16,13 +16,27 @@
 
 package org.drools.core.fluent.impl;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.drools.core.command.RequestContextImpl;
 import org.drools.core.command.impl.ExecutableCommand;
 import org.drools.core.command.impl.RegistryContext;
 import org.kie.api.runtime.Context;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class NewContextCommand<Void> implements ExecutableCommand<Void> {
+
+    private static final long serialVersionUID = 1L;
+    @XmlAttribute
     private String name;
+
+    public NewContextCommand() {
+
+    }
 
     public NewContextCommand(String name) {
         this.name = name;
@@ -30,8 +44,8 @@ public class NewContextCommand<Void> implements ExecutableCommand<Void> {
 
     @Override
     public Void execute(Context context) {
-        Context returned = ( (RegistryContext) context ).getContextManager().createContext( name );
-        ((RequestContextImpl)context).setApplicationContext(returned);
+        Context returned = ((RegistryContext) context).getContextManager().createContext(name);
+        ((RequestContextImpl) context).setApplicationContext(returned);
         return null;
     }
 }

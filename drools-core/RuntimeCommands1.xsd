@@ -1,0 +1,384 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="abortWorkItemCommand" type="abortWorkItemCommand"/>
+
+  <xs:element name="advance-session-time" type="advanceSessionTimeCommand"/>
+
+  <xs:element name="agendaGroupSetFocusCommand" type="agendaGroupSetFocusCommand"/>
+
+  <xs:element name="batch-execution" type="batch-execution"/>
+
+  <xs:element name="class-object-filter" type="classObjectSerializationFilter"/>
+
+  <xs:element name="clearActivationGroupCommand" type="clearActivationGroupCommand"/>
+
+  <xs:element name="clearAgendaCommand" type="clearAgendaCommand"/>
+
+  <xs:element name="clearAgendaGroupCommand" type="clearAgendaGroupCommand"/>
+
+  <xs:element name="clearRuleFlowGroupCommand" type="clearRuleFlowGroupCommand"/>
+
+  <xs:element name="completeWorkItemCommand" type="completeWorkItemCommand"/>
+
+  <xs:element name="deleteCommand" type="deleteCommand"/>
+
+  <xs:element name="disconnected-fact-handle" type="disconnectedFactHandle"/>
+
+  <xs:element name="disposeCommand" type="disposeCommand"/>
+
+  <xs:element name="fireAllRulesCommand" type="fireAllRulesCommand"/>
+
+  <xs:element name="fireUntilHaltCommand" type="fireUntilHaltCommand"/>
+
+  <xs:element name="get-id-command" type="getIdCommand"/>
+
+  <xs:element name="get-session-time" type="getSessionTimeCommand"/>
+
+  <xs:element name="getFactCountCommand" type="getFactCountCommand"/>
+
+  <xs:element name="getGlobalCommand" type="getGlobalCommand"/>
+
+  <xs:element name="insert-object-command" type="insertObjectCommand"/>
+
+  <xs:element name="list" type="jaxbListWrapper"/>
+
+  <xs:element name="setGlobalCommand" type="setGlobalCommand"/>
+
+  <xs:element name="setter" type="setterImpl"/>
+
+  <xs:element name="signalEventCommand" type="signalEventCommand"/>
+
+  <xs:element name="startProcessCommand" type="startProcessCommand"/>
+
+  <xs:complexType name="advanceSessionTimeCommand">
+    <xs:sequence/>
+    <xs:attribute name="out-identifier" type="xs:string" use="required"/>
+    <xs:attribute name="amount" type="xs:long" use="required"/>
+    <xs:attribute name="unit" type="timeUnit"/>
+  </xs:complexType>
+
+  <xs:complexType name="getKieBaseCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getFactCountInEntryPointCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getSessionTimeCommand">
+    <xs:sequence/>
+    <xs:attribute name="out-identifier" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="destroySessionCommand">
+    <xs:complexContent>
+      <xs:extension base="disposeCommand">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="disposeCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getGlobalCommand">
+    <xs:sequence/>
+    <xs:attribute name="identifier" type="xs:string" use="required"/>
+    <xs:attribute name="out-identifier" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="setGlobalCommand">
+    <xs:sequence>
+      <xs:element name="object" type="xs:anyType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="identifier" type="xs:string" use="required"/>
+    <xs:attribute name="out-identifier" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="registerChannelCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getEnvironmentCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getGlobalsCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getFactCountCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="batch-execution">
+    <xs:sequence>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="abort-work-item" type="abortWorkItemCommand"/>
+        <xs:element name="signal-event" type="signalEventCommand"/>
+        <xs:element name="start-process" type="startProcessCommand"/>
+        <xs:element name="retract" type="deleteCommand"/>
+        <xs:element name="get-global" type="getGlobalCommand"/>
+        <xs:element name="set-global" type="setGlobalCommand"/>
+        <xs:element name="insert-elements" type="insertElementsCommand"/>
+        <xs:element name="query" type="queryCommand"/>
+        <xs:element name="insert" type="insertObjectCommand"/>
+        <xs:element name="modify" type="modifyCommand"/>
+        <xs:element name="get-object" type="getObjectCommand"/>
+        <xs:element name="fire-all-rules" type="fireAllRulesCommand"/>
+        <xs:element name="fire-until-halt" type="fireUntilHaltCommand"/>
+        <xs:element name="complete-work-item" type="completeWorkItemCommand"/>
+        <xs:element name="get-objects" type="getObjectsCommand"/>
+        <xs:element name="set-focus" type="agendaGroupSetFocusCommand"/>
+        <xs:element name="clear-activation-group" type="clearActivationGroupCommand"/>
+        <xs:element name="clear-agenda" type="clearAgendaCommand"/>
+        <xs:element name="clear-agenda-group" type="clearAgendaGroupCommand"/>
+        <xs:element name="clear-ruleflow-group" type="clearRuleFlowGroupCommand"/>
+        <xs:element name="get-fact-handles" type="getFactHandlesCommand"/>
+      </xs:choice>
+    </xs:sequence>
+    <xs:attribute name="lookup" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="abortWorkItemCommand">
+    <xs:sequence/>
+    <xs:attribute name="id" type="xs:long" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="signalEventCommand">
+    <xs:sequence>
+      <xs:element name="correlation-key" type="xs:string" minOccurs="0"/>
+      <xs:element name="event" type="xs:anyType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="process-instance-id" type="xs:long" use="required"/>
+    <xs:attribute name="event-type" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="startProcessCommand">
+    <xs:sequence>
+      <xs:element name="parameter" type="jaxbStringObjectPairArray" minOccurs="0"/>
+      <xs:element name="data" minOccurs="0">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="data" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+    <xs:attribute name="processId" type="xs:string" use="required"/>
+    <xs:attribute name="out-identifier" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="jaxbStringObjectPair">
+    <xs:sequence>
+      <xs:element name="value" type="xs:anyType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="key" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="jaxbListWrapper">
+    <xs:sequence>
+      <xs:element name="type" type="jaxbWrapperType" minOccurs="0"/>
+      <xs:element name="element" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="componentType" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="deleteCommand">
+    <xs:sequence>
+      <xs:element name="handle" type="disconnectedFactHandle" minOccurs="0"/>
+      <xs:element name="fhState" type="state" minOccurs="0"/>
+      <xs:element name="fact-handle" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="disconnectedFactHandle">
+    <xs:sequence>
+      <xs:element name="id" type="xs:int"/>
+      <xs:element name="identityHashCode" type="xs:int"/>
+      <xs:element name="objectHashCode" type="xs:int"/>
+      <xs:element name="recency" type="xs:long"/>
+      <xs:element name="object" type="xs:anyType" minOccurs="0"/>
+      <xs:element name="entryPointId" type="xs:string" minOccurs="0"/>
+      <xs:element name="traitType" type="traitTypeEnum" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="external-form" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="array-elements">
+    <xs:sequence>
+      <xs:element name="elements" type="xs:anyType" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="insertElementsCommand">
+    <xs:sequence>
+      <xs:element ref="list" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="outIdentifier" type="xs:string"/>
+    <xs:attribute name="return-objects" type="xs:boolean" use="required"/>
+    <xs:attribute name="entry-point" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="queryCommand">
+    <xs:sequence>
+      <xs:element name="arguments" type="xs:anyType" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="out-identifier" type="xs:string"/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="insertObjectCommand">
+    <xs:sequence>
+      <xs:element name="object" type="xs:anyType" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="out-identifier" type="xs:string"/>
+    <xs:attribute name="return-object" type="xs:boolean" use="required"/>
+    <xs:attribute name="entry-point" type="xs:string"/>
+    <xs:attribute name="disconnected" type="xs:boolean" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="modifyCommand">
+    <xs:sequence>
+      <xs:element name="fact-handle" type="disconnectedFactHandle"/>
+      <xs:element name="setters" type="setterImpl" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+    <xs:attribute name="allow-modify-expr" type="xs:boolean" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="setterImpl">
+    <xs:sequence/>
+    <xs:attribute name="accessor" type="xs:string"/>
+    <xs:attribute name="value" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="getObjectCommand">
+    <xs:sequence>
+      <xs:element name="fact-handle" type="xs:string"/>
+    </xs:sequence>
+    <xs:attribute name="out-identifier" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="fireAllRulesCommand">
+    <xs:sequence/>
+    <xs:attribute name="max" type="xs:int" use="required"/>
+    <xs:attribute name="out-identifier" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="fireUntilHaltCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="completeWorkItemCommand">
+    <xs:sequence>
+      <xs:element name="result" type="jaxbStringObjectPairArray" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="id" type="xs:long" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="getObjectsCommand">
+    <xs:sequence>
+      <xs:element ref="class-object-filter" minOccurs="0"/>
+    </xs:sequence>
+    <xs:attribute name="out-identifier" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="classObjectSerializationFilter">
+    <xs:sequence/>
+    <xs:attribute name="string" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="agendaGroupSetFocusCommand">
+    <xs:sequence/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="clearActivationGroupCommand">
+    <xs:sequence/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="clearAgendaCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="clearAgendaGroupCommand">
+    <xs:sequence/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="clearRuleFlowGroupCommand">
+    <xs:sequence/>
+    <xs:attribute name="name" type="xs:string" use="required"/>
+  </xs:complexType>
+
+  <xs:complexType name="getFactHandlesCommand">
+    <xs:sequence/>
+    <xs:attribute name="disconnected" type="xs:boolean" use="required"/>
+    <xs:attribute name="out-identifier" type="xs:string"/>
+  </xs:complexType>
+
+  <xs:complexType name="getIdCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getCalendarsCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="kBuilderSetPropertyCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getChannelsCommand">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:simpleType name="timeUnit">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="NANOSECONDS"/>
+      <xs:enumeration value="MICROSECONDS"/>
+      <xs:enumeration value="MILLISECONDS"/>
+      <xs:enumeration value="SECONDS"/>
+      <xs:enumeration value="MINUTES"/>
+      <xs:enumeration value="HOURS"/>
+      <xs:enumeration value="DAYS"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="jaxbWrapperType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="LIST"/>
+      <xs:enumeration value="SET"/>
+      <xs:enumeration value="MAP"/>
+      <xs:enumeration value="ARRAY"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="traitTypeEnum">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="TRAIT"/>
+      <xs:enumeration value="TRAITABLE"/>
+      <xs:enumeration value="LEGACY_TRAITABLE"/>
+      <xs:enumeration value="WRAPPED_TRAITABLE"/>
+      <xs:enumeration value="NON_TRAIT"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="state">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="ALL"/>
+      <xs:enumeration value="STATED"/>
+      <xs:enumeration value="LOGICAL"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:complexType name="jaxbStringObjectPairArray" final="#all">
+    <xs:sequence>
+      <xs:element name="item" type="jaxbStringObjectPair" minOccurs="0" maxOccurs="unbounded" nillable="true"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

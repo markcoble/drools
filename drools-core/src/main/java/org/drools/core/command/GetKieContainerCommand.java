@@ -16,6 +16,12 @@
 
 package org.drools.core.command;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.drools.core.command.impl.ExecutableCommand;
 import org.drools.core.command.impl.RegistryContext;
 import org.kie.api.KieServices;
@@ -23,12 +29,17 @@ import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.Context;
 
-public class GetKieContainerCommand
-    implements
-    ExecutableCommand<KieContainer> {
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
+public class GetKieContainerCommand implements ExecutableCommand<KieContainer> {
 
     private static final long serialVersionUID = 8748826714594402049L;
+    @XmlElement(type = ReleaseIdImpl.class)
     private ReleaseId releaseId;
+
+    public GetKieContainerCommand() {
+
+    }
 
     public GetKieContainerCommand(ReleaseId releaseId) {
         this.releaseId = releaseId;
@@ -36,10 +47,11 @@ public class GetKieContainerCommand
 
     public KieContainer execute(Context context) {
         // use the new API to retrieve the session by ID
-        KieServices  kieServices  = KieServices.Factory.get();
+        KieServices kieServices = KieServices.Factory.get();
         KieContainer kieContainer = kieServices.newKieContainer(releaseId);
 
-        ((RegistryContext)context).register( KieContainer.class, kieContainer );
+        ((RegistryContext) context).register(KieContainer.class,
+                                             kieContainer);
         return kieContainer;
     }
 

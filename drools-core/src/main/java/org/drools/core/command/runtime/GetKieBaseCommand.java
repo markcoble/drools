@@ -16,21 +16,28 @@
 
 package org.drools.core.command.runtime;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.drools.core.command.impl.ExecutableCommand;
 import org.drools.core.command.impl.RegistryContext;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.KieBase;
 import org.kie.api.runtime.Context;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class GetKieBaseCommand
-    implements
-    ExecutableCommand<KieBase> {
+                               implements
+                               ExecutableCommand<KieBase> {
 
-    public GetKieBaseCommand() {
-    }
+    private static final long serialVersionUID = 1L;
+
+    public GetKieBaseCommand() {}
 
     public KieBase execute(Context context) {
-        KieSession ksession = ((RegistryContext) context).lookup( KieSession.class );
+        KieSession ksession = ((RegistryContext) context).lookup(KieSession.class);
         return ksession.getKieBase();
     }
 

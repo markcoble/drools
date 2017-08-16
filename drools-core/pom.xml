@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <parent>
@@ -20,6 +20,10 @@
   </properties>
 
   <dependencies>
+<!--     <dependency> -->
+<!--       <groupId>org.drools</groupId> -->
+<!--       <artifactId>drools-compiler</artifactId> -->
+<!--     </dependency> -->
     <dependency>
       <groupId>org.osgi</groupId>
       <artifactId>org.osgi.core</artifactId>
@@ -30,10 +34,8 @@
       <artifactId>org.osgi.compendium</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!--
-      following are required for parser (lang). May be refactored out of
-      core module.
-    -->
+    <!-- following are required for parser (lang). May be refactored out 
+      of core module. -->
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
@@ -101,7 +103,8 @@
     <dependency>
       <groupId>javax.inject</groupId>
       <artifactId>javax.inject</artifactId>
-      <scope>provided</scope><!-- HACK for OSGi: should be <optional>true</optional> instead -->
+      <scope>provided</scope><!-- HACK for OSGi: should be <optional>true</optional> 
+        instead -->
     </dependency>
 
     <!-- Logging -->
@@ -139,7 +142,8 @@
       </activation>
       <build>
         <plugins>
-          <plugin><!-- TODO JBRULES-2740 use mojo's antlr-maven-plugin or antlr3-maven-plugin so the jar versions are always up to date -->
+          <plugin><!-- TODO JBRULES-2740 use mojo's antlr-maven-plugin or 
+              antlr3-maven-plugin so the jar versions are always up to date -->
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>
               <execution>
@@ -148,31 +152,33 @@
                   <tasks if="generategrammars">
                     <path id="base.classpath">
                       <pathelement
-                          path="${user.home}/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar"/>
+                        path="${user.home}/.m2/repository/antlr/antlr/2.7.7/antlr-2.7.7.jar" />
                       <pathelement
-                          path="${user.home}/.m2/repository/org/antlr/stringtemplate/3.2/stringtemplate-3.2.jar"/>
+                        path="${user.home}/.m2/repository/org/antlr/stringtemplate/3.2/stringtemplate-3.2.jar" />
                       <pathelement
-                          path="${user.home}/.m2/repository/org/antlr/antlr/3.1.1/antlr-3.1.1.jar"/>
+                        path="${user.home}/.m2/repository/org/antlr/antlr/3.1.1/antlr-3.1.1.jar" />
                     </path>
-                    <property name="antlr_classpath" refid="maven.compile.classpath"/>
-                    <echo message="Generating Antlr Grammars"/>
+                    <property name="antlr_classpath" refid="maven.compile.classpath" />
+                    <echo message="Generating Antlr Grammars" />
                     <java classname="org.antlr.Tool" fork="true">
                       <arg
-                          line="-lib src/test/resources/org/drools/reteoo/test/parser src/test/resources/org/drools/reteoo/test/parser/NodeTestDSL.g src/test/resources/org/drools/reteoo/test/parser/NodeTestDSLTree.g"/>
-                      <classpath refid="base.classpath"/>
+                        line="-lib src/test/resources/org/drools/reteoo/test/parser src/test/resources/org/drools/reteoo/test/parser/NodeTestDSL.g src/test/resources/org/drools/reteoo/test/parser/NodeTestDSLTree.g" />
+                      <classpath refid="base.classpath" />
                     </java>
                     <move todir="src/test/java/org/drools/reteoo/test/parser">
-                      <fileset dir="src/test/resources/org/drools/reteoo/test/parser">
-                        <include name="**/*.java"/>
-                        <exclude name="**/__*"/>
+                      <fileset
+                        dir="src/test/resources/org/drools/reteoo/test/parser">
+                        <include name="**/*.java" />
+                        <exclude name="**/__*" />
                       </fileset>
                     </move>
                     <delete>
-                      <fileset dir="src/test/resources/org/drools/reteoo/test/parser">
-                        <include name="**/*.tokens"/>
-                        <include name="**/classes"/>
-                        <include name="**/__*"/>
-                        <include name="NodeTestDSL__.g"/>
+                      <fileset
+                        dir="src/test/resources/org/drools/reteoo/test/parser">
+                        <include name="**/*.tokens" />
+                        <include name="**/classes" />
+                        <include name="**/__*" />
+                        <include name="NodeTestDSL__.g" />
                       </fileset>
                     </delete>
                   </tasks>
@@ -242,16 +248,16 @@
               org.drools.core.*
             </Export-Package>
             <Import-Package>
-               com.sun.tools.xjc.*;resolution:=optional,
-               org.drools.persistence.api;resolution:=optional,
-               org.drools.template.parser;resolution:=optional,
-               org.drools.persistence.jpa;resolution:=optional,
-               org.drools.persistence.jpa.processinstance;resolution:=optional,
-               org.jbpm.persistence.api;resolution:=optional,
-               org.jbpm.marshalling.impl;resolution:=optional,
-               org.jbpm.process.instance.impl;resolution:=optional,
-               org.jbpm.process.instance.event;resolution:=optional,
-               *
+              com.sun.tools.xjc.*;resolution:=optional,
+              org.drools.persistence.api;resolution:=optional,
+              org.drools.template.parser;resolution:=optional,
+              org.drools.persistence.jpa;resolution:=optional,
+              org.drools.persistence.jpa.processinstance;resolution:=optional,
+              org.jbpm.persistence.api;resolution:=optional,
+              org.jbpm.marshalling.impl;resolution:=optional,
+              org.jbpm.process.instance.impl;resolution:=optional,
+              org.jbpm.process.instance.event;resolution:=optional,
+              *
             </Import-Package>
             <Bundle-Activator>org.drools.core.osgi.Activator</Bundle-Activator>
             <_removeheaders>Private-Package</_removeheaders>
@@ -262,8 +268,9 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
-          <!-- Hack/workaround for https://bugs.openjdk.java.net/browse/JDK-8061305. The Javadoc generation fails for
-               this class, so needs to be excluded. It seems the issue is fixed only in JDK 9+. -->
+          <!-- Hack/workaround for https://bugs.openjdk.java.net/browse/JDK-8061305. 
+            The Javadoc generation fails for this class, so needs to be excluded. It 
+            seems the issue is fixed only in JDK 9+. -->
           <sourceFileExcludes>
             <sourceFileExclude>**/MetaProperty.java</sourceFileExclude>
           </sourceFileExcludes>
@@ -278,10 +285,10 @@
         </configuration>
       </plugin>
 
-      <plugin>
-        <groupId>org.revapi</groupId>
-        <artifactId>revapi-maven-plugin</artifactId>
-      </plugin>
+<!--       <plugin> -->
+<!--         <groupId>org.revapi</groupId> -->
+<!--         <artifactId>revapi-maven-plugin</artifactId> -->
+<!--       </plugin> -->
 
     </plugins>
   </build>
