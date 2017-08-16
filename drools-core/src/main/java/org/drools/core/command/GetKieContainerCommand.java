@@ -21,13 +21,13 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-import org.drools.compiler.kproject.ReleaseIdImpl;
 import org.drools.core.command.impl.ExecutableCommand;
 import org.drools.core.command.impl.RegistryContext;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.Context;
+import org.kie.internal.builder.impl.ReleaseIdImpl;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.NONE)

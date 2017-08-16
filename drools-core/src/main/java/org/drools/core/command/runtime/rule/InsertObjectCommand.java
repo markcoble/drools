@@ -30,6 +30,7 @@ import org.kie.api.runtime.Context;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -43,8 +44,8 @@ public class InsertObjectCommand
 
     private static final long serialVersionUID = 510l;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbUnknownAdapter.class)
+    @XmlAnyElement(lax=true)
+//    @XmlJavaTypeAdapter(JaxbUnknownAdapter.class)
     private Object  object;
 
     @XmlAttribute(name="out-identifier")

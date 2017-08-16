@@ -25,7 +25,7 @@ import org.drools.core.command.impl.ExecutableCommand;
 import org.drools.core.command.impl.RegistryContext;
 import org.kie.api.KieServices;
 import org.kie.api.builder.ReleaseId;
-import org.kie.api.internal.builder.impl.ReleaseIdImpl;
+import org.kie.internal.builder.impl.ReleaseIdImpl;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.Context;
