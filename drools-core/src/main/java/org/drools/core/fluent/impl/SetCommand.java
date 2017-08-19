@@ -16,44 +16,62 @@
 
 package org.drools.core.fluent.impl;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.drools.core.command.RequestContextImpl;
 import org.drools.core.command.impl.ExecutableCommand;
 import org.kie.api.runtime.Context;
 import org.kie.api.runtime.builder.Scope;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class SetCommand<T> implements ExecutableCommand<T> {
+
+    @XmlAttribute(required = true)
     private String name;
+    @XmlAttribute()
     private Scope scope = Scope.REQUEST;
+
+    public SetCommand() {
+
+    }
 
     public SetCommand(String name) {
         this.name = name;
     }
 
-    public SetCommand(String name, Scope scope) {
+    public SetCommand(String name,
+                      Scope scope) {
         this.name = name;
         this.scope = scope;
     }
 
     @Override
     public T execute(Context context) {
-        RequestContextImpl reqContext = (RequestContextImpl)context;
+        RequestContextImpl reqContext = (RequestContextImpl) context;
         T returned = (T) reqContext.getResult();
 
-        if ( scope == Scope.REQUEST ) {
-            reqContext.set(name, returned);
-        } else if ( scope == Scope.CONVERSATION ) {
-            if ( reqContext.getConversationContext() == null ) {
+        if (scope == Scope.REQUEST) {
+            reqContext.set(name,
+                           returned);
+        } else if (scope == Scope.CONVERSATION) {
+            if (reqContext.getConversationContext() == null) {
                 throw new IllegalStateException("No Conversation Context Exists");
             }
-            reqContext.getConversationContext().set(name, returned);
-        } else  if ( scope == Scope.APPLICATION ) {
-            if ( reqContext.getApplicationContext() == null ) {
+            reqContext.getConversationContext().set(name,
+                                                    returned);
+        } else if (scope == Scope.APPLICATION) {
+            if (reqContext.getApplicationContext() == null) {
                 throw new IllegalStateException("No Application Context Exists");
             }
-            reqContext.getApplicationContext().set(name, returned);
+            reqContext.getApplicationContext().set(name,
+                                                   returned);
         }
 
-        ((RequestContextImpl)context).setLastSetOrGet(name);
+        ((RequestContextImpl) context).setLastSetOrGet(name);
         return returned;
     }
 

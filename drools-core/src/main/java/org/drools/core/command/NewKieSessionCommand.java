@@ -37,6 +37,8 @@ public class NewKieSessionCommand
                                   ExecutableCommand<KieSession> {
 
     private static final long serialVersionUID = 8748826714594402049L;
+    
+    @XmlElement
     private String sessionId;
 
     @XmlElement(type = ReleaseIdImpl.class)

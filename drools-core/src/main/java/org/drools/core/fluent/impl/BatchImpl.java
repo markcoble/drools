@@ -16,14 +16,55 @@
 
 package org.drools.core.fluent.impl;
 
+import org.drools.core.command.GetKieContainerCommand;
+import org.drools.core.command.JoinConversationCommand;
+import org.drools.core.command.NewKieSessionCommand;
+import org.drools.core.command.OutCommand;
+import org.drools.core.command.StartConversationCommand;
+import org.drools.core.command.runtime.DisposeCommand;
+import org.drools.core.command.runtime.GetGlobalCommand;
+import org.drools.core.command.runtime.SetGlobalCommand;
+import org.drools.core.command.runtime.rule.FireAllRulesCommand;
+import org.drools.core.command.runtime.rule.InsertElementsCommand;
+import org.drools.core.command.runtime.rule.InsertObjectCommand;
 import org.kie.api.command.Command;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlElements;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class BatchImpl implements Batch {
+
+    @XmlAttribute(required = true)
     private final long distance;
 
+    @XmlElements({
+                  @XmlElement(name = "stack-item", type = BatchImpl.class),
+                  @XmlElement(name = "new-application-context", type = NewContextCommand.class),
+                  @XmlElement(name = "new-session", type = NewKieSessionCommand.class),
+                  @XmlElement(name = "get-kie-container", type = GetKieContainerCommand.class),
+                  @XmlElement(name = "get-global", type = GetGlobalCommand.class),
+                  @XmlElement(name = "set-global", type = SetGlobalCommand.class),
+                  @XmlElement(name = "insert", type = InsertObjectCommand.class),
+                  @XmlElement(name = "insert-elements", type = InsertElementsCommand.class),
+                  @XmlElement(name = "fire-all-rules", type = FireAllRulesCommand.class),
+                  @XmlElement(name = "register-var", type = SetVarAsRegistryEntry.class),
+                  @XmlElement(name = "get-context", type = GetContextCommand.class),
+                  @XmlElement(name = "start-conversation", type = StartConversationCommand.class),
+                  @XmlElement(name = "join-conversation", type = JoinConversationCommand.class),
+                  @XmlElement(name = "set", type = SetCommand.class),
+                  @XmlElement(name = "dispose", type = DisposeCommand.class),
+                  @XmlElement(name = "out", type = OutCommand.class),
+
+    })
     private List<Command> commands = new ArrayList<Command>();
 
     public BatchImpl() {

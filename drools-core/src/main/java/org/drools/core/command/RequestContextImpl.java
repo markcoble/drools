@@ -16,6 +16,12 @@
 
 package org.drools.core.command;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
 import org.drools.core.command.impl.ContextImpl;
 import org.drools.core.runtime.impl.ExecutionResultImpl;
 import org.kie.api.KieBase;
@@ -24,19 +30,26 @@ import org.kie.api.runtime.KieSession;
 import org.kie.api.runtime.RequestContext;
 import org.kie.internal.command.ContextManager;
 
+@XmlRootElement(name = "request-context")
+@XmlAccessorType(XmlAccessType.NONE)
 public class RequestContextImpl extends ContextImpl implements RequestContext {
 
+    
     private Context appContext;
     private Context conversationContext;
 
     private ConversationContextManager cvnManager;
 
+    @XmlAnyElement(lax = true)
     private Object result;
 
+    @XmlElement
     private String lastSet;
 
+    @XmlElement
     private Exception exception;
 
+    
     public RequestContextImpl() {
         register( ExecutionResultImpl.class, new ExecutionResultImpl() );
     }

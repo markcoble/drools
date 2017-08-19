@@ -18,16 +18,25 @@ package org.drools.core.fluent.impl;
 
 import org.kie.api.command.Command;
 import org.kie.api.runtime.builder.ExecutableBuilder;
+import org.kie.internal.builder.impl.ReleaseIdImpl;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "executable-fluent")
+@XmlAccessorType(XmlAccessType.NONE)
 public class ExecutableImpl implements InternalExecutable {
     private FluentComponentFactory factory;
     private ExecutableBuilder executableBuilder;
 
     private Batch batch;
 
+    @XmlElement(name = "batch", required = true, type = BatchImpl.class)
     private List<Batch> batches;
 
     public ExecutableImpl() {

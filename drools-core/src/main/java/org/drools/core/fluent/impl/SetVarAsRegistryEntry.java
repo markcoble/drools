@@ -22,11 +22,26 @@ import org.kie.api.runtime.Context;
 
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.NONE)
 public class SetVarAsRegistryEntry<Void> implements ExecutableCommand<Void> {
+
+    @XmlAttribute(required = true)
     private String registryName;
+    @XmlAttribute(required = true)
     private String varName;
 
-    public SetVarAsRegistryEntry(String registryName, String varName) {
+    public SetVarAsRegistryEntry() {
+
+    }
+
+    public SetVarAsRegistryEntry(String registryName,
+                                 String varName) {
         this.registryName = registryName;
         this.varName = varName;
     }
@@ -35,7 +50,8 @@ public class SetVarAsRegistryEntry<Void> implements ExecutableCommand<Void> {
     public Void execute(Context context) {
         Object o = context.get(varName);
 
-        ((Map<String, Object>)context.get(ContextImpl.REGISTRY)).put(registryName, o);
+        ((Map<String, Object>) context.get(ContextImpl.REGISTRY)).put(registryName,
+                                                                      o);
         return null;
     }
 

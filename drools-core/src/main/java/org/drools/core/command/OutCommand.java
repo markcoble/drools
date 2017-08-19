@@ -15,7 +15,7 @@ public class OutCommand<T> implements ExecutableCommand<T> {
 
     private static final long serialVersionUID = -2176133220886091708L;
     
-    @XmlAttribute(required = true)
+    @XmlAttribute
     private String name;
 
     public OutCommand() {}
